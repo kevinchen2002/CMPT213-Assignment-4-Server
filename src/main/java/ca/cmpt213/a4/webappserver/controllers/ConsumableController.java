@@ -31,7 +31,7 @@ public class ConsumableController {
 //        return pledge;
 //    }
 
-    @PostMapping("/addFood")
+    @PostMapping("/addConsumable")
     @ResponseStatus(HttpStatus.CREATED)
     public String addConsumable(@RequestBody String gsonString) {
         Consumable consumable = ConsumableManager.deserializeConsumable(gsonString);
@@ -41,7 +41,7 @@ public class ConsumableController {
 
     @GetMapping("/getFirst")
     public String getFirst() {
-        return ConsumableManager.serializeConsumable(getAllConsumables().get(0));
+        return ConsumableManager.serializeConsumable(consumableManager.getAllConsumables().get(0));
     }
 
     @PostMapping("/dummy")
@@ -58,8 +58,8 @@ public class ConsumableController {
 //    }
 
     @GetMapping("/listAll")
-    public ArrayList<Consumable> getAllConsumables() {
-        return consumableManager.getAllConsumables();
+    public String getAllConsumables() {
+        return ConsumableManager.serializeConsumableList(consumableManager.getAllConsumables());
     }
 //
 //    @GetMapping("/pledges/{id}")

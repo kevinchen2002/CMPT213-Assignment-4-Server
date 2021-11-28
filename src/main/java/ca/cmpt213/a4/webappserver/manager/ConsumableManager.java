@@ -144,6 +144,22 @@ public class ConsumableManager {
         return deserialized;
     }
 
+    public static String serializeConsumableList(ArrayList<Consumable> consumableList) {
+        return myGson.toJson(consumableList);
+    }
+
+    public static ArrayList<Consumable> deserializeConsumableList(String gsonString) {
+        consumableList = myGson.fromJson(gsonString, new TypeToken<Consumable>() {}.getType());
+        for (Consumable consumable : consumableList) {
+            if (consumable instanceof FoodItem) {
+                consumable.setType("food");
+            } else if (consumable instanceof DrinkItem) {
+                consumable.setType("drink");
+            }
+        }
+        return consumableList;
+    }
+
     /**
      * Creates a new data.json file if needed; derived from https://www.w3schools.com/java/java_files_create.asp
      */
