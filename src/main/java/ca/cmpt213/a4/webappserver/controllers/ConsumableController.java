@@ -61,6 +61,21 @@ public class ConsumableController {
     public String getAllConsumables() {
         return ConsumableManager.serializeConsumableList(consumableManager.getAllConsumables());
     }
+
+    @GetMapping("/listExpired")
+    public String getExpiredConsumables() {
+        return ConsumableManager.serializeConsumableList(consumableManager.getExpiredConsumables());
+    }
+
+    @GetMapping("/listNonExpired")
+    public String getNonExpiredConsumables() {
+        return ConsumableManager.serializeConsumableList(consumableManager.getNotExpiredConsumables());
+    }
+
+    @GetMapping("/listExpiringIn7Days")
+    public String getExpiringSevenDays() {
+        return ConsumableManager.serializeConsumableList(consumableManager.getExpiringSevenDaysConsumables());
+    }
 //
 //    @GetMapping("/pledges/{id}")
 //    public Pledge getOnePledge(@PathVariable("id") long pledgeId) {
