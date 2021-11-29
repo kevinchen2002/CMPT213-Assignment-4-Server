@@ -10,53 +10,59 @@ public class ConsumableController {
     ConsumableManager consumableManager = ConsumableManager.getInstance();
 
     @GetMapping("/ping")
+    @ResponseStatus(HttpStatus.OK)
     public String pingServer() {
         return "System is up!";
     }
 
-    @PostMapping("/addConsumable")
+    @PostMapping("/addItem")
     @ResponseStatus(HttpStatus.CREATED)
     public String addConsumable(@RequestBody String gsonString) {
         Consumable consumable = ConsumableManager.deserializeConsumable(gsonString);
         consumableManager.addConsumable(consumable);
-        return gsonString;
+        return consumableManager.getAllConsumables();
     }
 
-    @PostMapping("/removeConsumable")
+    @PostMapping("/removeItem")
+    @ResponseStatus(HttpStatus.OK)
     public String removeConsumable(@RequestBody String uuid) {
         consumableManager.removeByUUID(uuid);
         return consumableManager.getAllConsumables();
     }
 
     @GetMapping("/listAll")
+    @ResponseStatus(HttpStatus.OK)
     public String getAllConsumables() {
         return consumableManager.getAllConsumables();
     }
 
     @GetMapping("/listExpired")
+    @ResponseStatus(HttpStatus.OK)
     public String getExpiredConsumables() {
         return consumableManager.getExpiredConsumables();
     }
 
     @GetMapping("/listNonExpired")
+    @ResponseStatus(HttpStatus.OK)
     public String getNonExpiredConsumables() {
         return consumableManager.getNotExpiredConsumables();
     }
 
     @GetMapping("/listExpiringIn7Days")
+    @ResponseStatus(HttpStatus.OK)
     public String getExpiringSevenDays() {
         return consumableManager.getExpiringSevenDaysConsumables();
     }
 
     @GetMapping("/load")
-    public String loadConsumables() {
+    @ResponseStatus(HttpStatus.OK)
+    public void loadConsumables() {
         consumableManager.loadFile();
-        return "ok";
     }
 
     @GetMapping("exit")
-    public String saveConsumable() {
+    @ResponseStatus(HttpStatus.OK)
+    public void saveConsumable() {
         consumableManager.writeFile();
-        return "ok";
     }
 }
