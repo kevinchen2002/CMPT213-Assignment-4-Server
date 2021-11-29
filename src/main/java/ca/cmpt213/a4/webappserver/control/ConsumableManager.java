@@ -1,4 +1,4 @@
-package ca.cmpt213.a4.webappserver.manager;
+package ca.cmpt213.a4.webappserver.control;
 
 import ca.cmpt213.a4.webappserver.gson.extras.RuntimeTypeAdapterFactory;
 import ca.cmpt213.a4.webappserver.model.Consumable;
@@ -44,10 +44,6 @@ public class ConsumableManager {
         return instance;
     }
 
-    public void setConsumableList(ArrayList<Consumable> consumableList) {
-        this.consumableList = consumableList;
-    }
-
     public void removeByUUID(String uuid) {
         Consumable toRemove = null;
         for (Consumable consumable : consumableList) {
@@ -68,22 +64,6 @@ public class ConsumableManager {
     public void addConsumable(Consumable consumable) {
         consumableList.add(consumable);
         Collections.sort(consumableList);
-    }
-
-    /**
-     * Returns the size of the underlying Consumable list
-     * @return the size as an integer
-     */
-    public int getSize() {
-        return consumableList.size();
-    }
-
-    /**
-     * Removes the item at the given index
-     * @param index the index to be removed
-     */
-    public void removeConsumable(int index) {
-        consumableList.remove(index);
     }
 
     public ArrayList<Consumable> getAllConsumables() {
@@ -147,10 +127,6 @@ public class ConsumableManager {
                 }
             }).registerTypeAdapterFactory(runTimeTypeAdapterFactory).create();
 
-    public static String serializeConsumable(Consumable consumable) {
-            return myGson.toJson(consumable);
-    }
-
     public static Consumable deserializeConsumable(String gsonString) {
         Consumable deserialized = myGson.fromJson(gsonString, new TypeToken<Consumable>() {
             }.getType());
@@ -164,18 +140,6 @@ public class ConsumableManager {
 
     public static String serializeConsumableList(ArrayList<Consumable> consumableList) {
         return myGson.toJson(consumableList);
-    }
-
-    public static ArrayList<Consumable> deserializeConsumableList(String gsonString) {
-        ArrayList<Consumable> list = myGson.fromJson(gsonString, new TypeToken<Consumable>() {}.getType());
-        for (Consumable consumable : list) {
-            if (consumable instanceof FoodItem) {
-                consumable.setType("food");
-            } else if (consumable instanceof DrinkItem) {
-                consumable.setType("drink");
-            }
-        }
-        return list;
     }
 
     /**
