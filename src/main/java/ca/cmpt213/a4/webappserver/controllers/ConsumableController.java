@@ -39,7 +39,7 @@ public class ConsumableController {
      * @param uuid the id of the item to be removed
      */
     @PostMapping("/removeItem")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.CREATED)
     public void removeConsumable(@RequestBody String uuid) {
         consumableManager.removeByUUID(uuid);
     }
