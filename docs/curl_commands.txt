@@ -10,6 +10,8 @@ curl -i -H "Content-Type: application/json" -X POST -d "93896c59-e419-4bf0-aa7a-
 
 # List
 curl -i -H "Content-Type: application/json" -X GET localhost:8080/listAll
+curl -i -H "Content-Type: application/json" -X GET localhost:8080/load
+curl -i -H "Content-Type: application/json" -X GET localhost:8080/exit
 
 # Get first
 curl -i -H "Content-Type: application/json" -X GET localhost:8080/getFirst

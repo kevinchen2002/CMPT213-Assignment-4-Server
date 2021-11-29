@@ -209,6 +209,7 @@ public class ConsumableManager {
                     consumable.setType("drink");
                 }
             }
+            System.out.println("LOADING");
             reader.close();
         } catch (NoSuchFileException e) {
             //if the file is not there, create it
@@ -227,6 +228,7 @@ public class ConsumableManager {
         try {
             Writer writer = Files.newBufferedWriter(Paths.get(filename));
             myGson.toJson(consumableList, writer);
+            System.out.println("SAVING");
             writer.close();
 
         } catch (NoSuchFileException e) {

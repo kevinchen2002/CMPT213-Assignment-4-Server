@@ -84,6 +84,18 @@ public class ConsumableController {
     public String getExpiringSevenDays() {
         return ConsumableManager.serializeConsumableList(consumableManager.getExpiringSevenDaysConsumables());
     }
+
+    @GetMapping("/load")
+    public String loadConsumables() {
+        consumableManager.loadFile();
+        return "ok";
+    }
+
+    @GetMapping("exit")
+    public String saveConsumable() {
+        consumableManager.writeFile();
+        return "ok";
+    }
 //
 //    @GetMapping("/pledges/{id}")
 //    public Pledge getOnePledge(@PathVariable("id") long pledgeId) {
