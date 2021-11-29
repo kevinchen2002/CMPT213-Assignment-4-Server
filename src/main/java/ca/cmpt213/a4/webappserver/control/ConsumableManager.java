@@ -25,8 +25,9 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * ConsumableManager handles operations in regard to the Consumable list.
- * It uses a Singleton to distribute the same instance across the main UI and the dialog.
+ * ConsumableManager handles the underlying list of the web server. It adds/removes items as defined by the client.
+ * It also returns serialized lists of consumables based on expiry criteria.
+ * Lastly, it loads and writes to a json file upon startup and exit of the client app.
  */
 public class ConsumableManager {
     private ArrayList<Consumable> consumableList = new ArrayList<>();
@@ -44,6 +45,10 @@ public class ConsumableManager {
         return instance;
     }
 
+    /**
+     * Locates the consumable with the uuid given by the client, and removes it if it exists.
+     * @param uuid the uuid of the item to be removed
+     */
     public void removeByUUID(String uuid) {
         Consumable toRemove = null;
         for (Consumable consumable : consumableList) {
@@ -66,10 +71,18 @@ public class ConsumableManager {
         Collections.sort(consumableList);
     }
 
+    /**
+     * Returns a serialized list of all consumables
+     * @return the serialized list of all consumables
+     */
     public String getAllConsumables() {
         return serializeConsumableList(consumableList);
     }
 
+    /**
+     * Returns a serialized list of all expired consumables
+     * @return the serialized list of all expired consumables
+     */
     public String getExpiredConsumables() {
         ArrayList<Consumable> expiredConsumablesList = new ArrayList<>();
         for (Consumable consumable : consumableList) {
@@ -80,6 +93,10 @@ public class ConsumableManager {
         return serializeConsumableList(expiredConsumablesList);
     }
 
+    /**
+     * Returns a serialized list of all non-expired consumables
+     * @return the serialized list of all non-expired consumables
+     */
     public String getNotExpiredConsumables() {
         ArrayList<Consumable> notExpiredConsumablesList = new ArrayList<>();
         for (Consumable consumable : consumableList) {
@@ -90,6 +107,10 @@ public class ConsumableManager {
         return serializeConsumableList(notExpiredConsumablesList);
     }
 
+    /**
+     * Returns a serialized list of all consumables expiring within seven days
+     * @return the serialized list of all consumables expiring within seven days
+     */
     public String getExpiringSevenDaysConsumables() {
         ArrayList<Consumable> expiringSevenDaysList = new ArrayList<>();
         for (Consumable consumable : consumableList) {
@@ -127,6 +148,11 @@ public class ConsumableManager {
                 }
             }).registerTypeAdapterFactory(runTimeTypeAdapterFactory).create();
 
+    /**
+     * Deserializes a single Consumable item, given by the client app
+     * @param gsonString the serialized json string of a Consumable item
+     * @return a fully-formed Consumable object
+     */
     public static Consumable deserializeConsumable(String gsonString) {
         Consumable deserialized = myGson.fromJson(gsonString, new TypeToken<Consumable>() {
             }.getType());
@@ -138,6 +164,11 @@ public class ConsumableManager {
         return deserialized;
     }
 
+    /**
+     * Serializes a list of Consumables in json format, to be passed to the client app
+     * @param consumableList the list to be serialized
+     * @return a serialized json string
+     */
     public static String serializeConsumableList(ArrayList<Consumable> consumableList) {
         return myGson.toJson(consumableList);
     }
