@@ -39,6 +39,13 @@ public class ConsumableController {
         return gsonString;
     }
 
+    @PostMapping("/removeConsumable")
+    public String removeConsumable(@RequestBody String uuid) {
+        consumableManager.removeByUUID(uuid);
+        System.out.println("UUID IS " + uuid);
+        return ConsumableManager.serializeConsumableList(consumableManager.getAllConsumables());
+    }
+
     @GetMapping("/getFirst")
     public String getFirst() {
         return ConsumableManager.serializeConsumable(consumableManager.getAllConsumables().get(0));
@@ -49,7 +56,8 @@ public class ConsumableController {
     public String dummy() {
         Consumable dummy = ConsumableManager.deserializeConsumable("{\"weight\":1.0,\"name\":\"Food\",\"notes\":\"This is a food!\",\"price\":1.0,\"expDate\":\"2021-11-25T01:30\",\"daysUntilExp\":-1,\"isExpired\":true,\"type\":\"food\",\"uuid\":\"93896c59-e419-4bf0-aa7a-73be212160f7\"}");
         consumableManager.addConsumable(dummy);
-        return dummy.toString();
+        //consumableManager.removeByUUID("93896c59-e419-4bf0-aa7a-73be212160f7");
+        return "yes";
     }
 //
 //    @GetMapping("/pledges")

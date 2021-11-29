@@ -5,6 +5,9 @@ curl -i -X GET localhost:8080/ping
 curl -i -H "Content-Type: application/json" -X POST -d "{\"weight\":1.0,\"name\":\"Food\",\"notes\":\"This is a food!\",\"price\":1.0,\"expDate\":\"2021-11-25T01:30\",\"daysUntilExp\":-1,\"isExpired\":true,\"type\":\"food\",\"uuid\":\"93896c59-e419-4bf0-aa7a-73be212160f7\"}" localhost:8080/addFood
 curl -i -H "Content-Type: application/json" -X POST localhost:8080/dummy
 
+# Remove
+curl -i -H "Content-Type: application/json" -X POST -d "93896c59-e419-4bf0-aa7a-73be212160f7" localhost:8080/removeConsumable
+
 # List
 curl -i -H "Content-Type: application/json" -X GET localhost:8080/listAll
 

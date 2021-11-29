@@ -22,13 +22,14 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * ConsumableManager handles operations in regard to the Consumable list.
  * It uses a Singleton to distribute the same instance across the main UI and the dialog.
  */
 public class ConsumableManager {
-    private static ArrayList<Consumable> consumableList = new ArrayList<>();
+    private ArrayList<Consumable> consumableList = new ArrayList<>();
     private static final String filename = "data.json";
     private static ConsumableManager instance;
 
@@ -41,6 +42,23 @@ public class ConsumableManager {
             instance = new ConsumableManager();
         }
         return instance;
+    }
+
+    public void setConsumableList(ArrayList<Consumable> consumableList) {
+        this.consumableList = consumableList;
+    }
+
+    public void removeByUUID(String uuid) {
+        Consumable toRemove = null;
+        for (Consumable consumable : consumableList) {
+            if (Objects.equals(uuid, consumable.getId())) {
+                toRemove = consumable;
+                break;
+            }
+        }
+        if (toRemove != null) {
+            consumableList.remove(toRemove);
+        }
     }
 
     /**
@@ -149,15 +167,15 @@ public class ConsumableManager {
     }
 
     public static ArrayList<Consumable> deserializeConsumableList(String gsonString) {
-        consumableList = myGson.fromJson(gsonString, new TypeToken<Consumable>() {}.getType());
-        for (Consumable consumable : consumableList) {
+        ArrayList<Consumable> list = myGson.fromJson(gsonString, new TypeToken<Consumable>() {}.getType());
+        for (Consumable consumable : list) {
             if (consumable instanceof FoodItem) {
                 consumable.setType("food");
             } else if (consumable instanceof DrinkItem) {
                 consumable.setType("drink");
             }
         }
-        return consumableList;
+        return list;
     }
 
     /**
