@@ -66,38 +66,38 @@ public class ConsumableManager {
         Collections.sort(consumableList);
     }
 
-    public ArrayList<Consumable> getAllConsumables() {
-        return consumableList;
+    public String getAllConsumables() {
+        return serializeConsumableList(consumableList);
     }
 
-    public ArrayList<Consumable> getExpiredConsumables() {
+    public String getExpiredConsumables() {
         ArrayList<Consumable> expiredConsumablesList = new ArrayList<>();
         for (Consumable consumable : consumableList) {
             if (consumable.isExpired()) {
                 expiredConsumablesList.add(consumable);
             }
         }
-        return expiredConsumablesList;
+        return serializeConsumableList(expiredConsumablesList);
     }
 
-    public ArrayList<Consumable> getNotExpiredConsumables() {
+    public String getNotExpiredConsumables() {
         ArrayList<Consumable> notExpiredConsumablesList = new ArrayList<>();
         for (Consumable consumable : consumableList) {
             if (!consumable.isExpired()) {
                 notExpiredConsumablesList.add(consumable);
             }
         }
-        return notExpiredConsumablesList;
+        return serializeConsumableList(notExpiredConsumablesList);
     }
 
-    public ArrayList<Consumable> getExpiringSevenDaysConsumables() {
+    public String getExpiringSevenDaysConsumables() {
         ArrayList<Consumable> expiringSevenDaysList = new ArrayList<>();
         for (Consumable consumable : consumableList) {
             if (consumable.getDaysUntilExp() <= 7 && !consumable.isExpired()) {
                 expiringSevenDaysList.add(consumable);
             }
         }
-        return expiringSevenDaysList;
+        return serializeConsumableList(expiringSevenDaysList);
     }
 
     /**
@@ -173,7 +173,6 @@ public class ConsumableManager {
                     consumable.setType("drink");
                 }
             }
-            System.out.println("LOADING");
             reader.close();
         } catch (NoSuchFileException e) {
             //if the file is not there, create it
@@ -192,7 +191,6 @@ public class ConsumableManager {
         try {
             Writer writer = Files.newBufferedWriter(Paths.get(filename));
             myGson.toJson(consumableList, writer);
-            System.out.println("SAVING");
             writer.close();
 
         } catch (NoSuchFileException e) {

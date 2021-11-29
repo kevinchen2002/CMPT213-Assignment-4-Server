@@ -25,28 +25,27 @@ public class ConsumableController {
     @PostMapping("/removeConsumable")
     public String removeConsumable(@RequestBody String uuid) {
         consumableManager.removeByUUID(uuid);
-        System.out.println("UUID IS " + uuid);
-        return ConsumableManager.serializeConsumableList(consumableManager.getAllConsumables());
+        return consumableManager.getAllConsumables();
     }
 
     @GetMapping("/listAll")
     public String getAllConsumables() {
-        return ConsumableManager.serializeConsumableList(consumableManager.getAllConsumables());
+        return consumableManager.getAllConsumables();
     }
 
     @GetMapping("/listExpired")
     public String getExpiredConsumables() {
-        return ConsumableManager.serializeConsumableList(consumableManager.getExpiredConsumables());
+        return consumableManager.getExpiredConsumables();
     }
 
     @GetMapping("/listNonExpired")
     public String getNonExpiredConsumables() {
-        return ConsumableManager.serializeConsumableList(consumableManager.getNotExpiredConsumables());
+        return consumableManager.getNotExpiredConsumables();
     }
 
     @GetMapping("/listExpiringIn7Days")
     public String getExpiringSevenDays() {
-        return ConsumableManager.serializeConsumableList(consumableManager.getExpiringSevenDaysConsumables());
+        return consumableManager.getExpiringSevenDaysConsumables();
     }
 
     @GetMapping("/load")
