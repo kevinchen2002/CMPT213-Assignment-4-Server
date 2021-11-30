@@ -29,9 +29,10 @@ public class ConsumableController {
      */
     @PostMapping("/addItem")
     @ResponseStatus(HttpStatus.CREATED)
-    public void addConsumable(@RequestBody String gsonString) {
+    public String addConsumable(@RequestBody String gsonString) {
         Consumable consumable = ConsumableManager.deserializeConsumable(gsonString);
         consumableManager.addConsumable(consumable);
+        return consumableManager.getAllConsumables();
     }
 
     /**
@@ -40,8 +41,9 @@ public class ConsumableController {
      */
     @PostMapping("/removeItem")
     @ResponseStatus(HttpStatus.CREATED)
-    public void removeConsumable(@RequestBody String uuid) {
+    public String removeConsumable(@RequestBody String uuid) {
         consumableManager.removeByUUID(uuid);
+        return consumableManager.getAllConsumables();
     }
 
     /**
